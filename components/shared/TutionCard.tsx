@@ -26,7 +26,7 @@ function getInitials(name: string) {
 
 export default function TuitionCard({ tuition }: { tuition: Tuition }) {
     const isOnline = tuition.mode?.toLowerCase() === "online"
-    const detailsHref = `/tutions/${tuition._id}`
+    const detailsHref = `/tuitions/${tuition._id}`
 
     return (
         <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-xl hover:shadow-slate-900/5 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700 dark:hover:shadow-black/20">

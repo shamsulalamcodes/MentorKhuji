@@ -9,3 +9,8 @@ export const getAllTutions = async () => {
     const res = await fetch(`${base}/approvedTutions`)
     return res.json()
 }
+
+export const getSingleTution = async (id: string) => {
+    const res = await fetch(`${base}/tution/${id}`)
+    return res.json()
+}

@@ -6,7 +6,7 @@ import {
 } from "lucide-react"
 import { getLatestTutions } from "@/lib/api"
 import { Tuition } from "@/lib/type"
-import TuitionCard from "./TutionCard"
+import TuitionCard from "../shared/TutionCard"
 
 const LatestTutions = async () => {
     let tuitions: Tuition[] = []

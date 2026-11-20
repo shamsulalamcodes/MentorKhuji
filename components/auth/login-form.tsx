@@ -11,7 +11,7 @@ export function LoginForm() {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
 
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     setError("");
 
@@ -27,7 +27,6 @@ export function LoginForm() {
       //   onSuccess: () => router.push("/dashboard"),
       //   onError: (ctx) => setError(ctx.error.message),
       // });
-      console.info("login credentials", credentials);
     } catch {
       setError("Something went wrong. Please try again.");
     } finally {

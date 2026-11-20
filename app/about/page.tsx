@@ -1,9 +1,9 @@
-import React from 'react';
+import { HowItWorksPage } from '@/components/howitworks/HowItWorks';
 
 const About = () => {
     return (
         <div>
-
+            <HowItWorksPage />
         </div>
     );
 };

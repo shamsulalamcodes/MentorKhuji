@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { AuthInput, PasswordInput } from "@/components/auth/auth-inputs";
 import { SocialButtons } from "@/components/auth/social-buttons";
+import { authClient } from "@/lib/auth-client";
 
 type Role = "student" | "tutor";
 
@@ -15,7 +16,7 @@ export function SignupForm() {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
 
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     setError("");
 
@@ -118,10 +119,8 @@ export function SignupForm() {
       <SocialButtons
         verb="Sign up"
         disabled={loading}
-        // TODO: authClient.signIn.social({ provider: "google", callbackURL: "/dashboard" })
-        onGoogle={() => {}}
-        // TODO: authClient.signIn.social({ provider: "apple", callbackURL: "/dashboard" })
-        onApple={() => {}}
+        // TODO: 
+        onGoogle={() => { }}
       />
 
       <p className="mt-8 text-center text-[15px] font-medium text-slate-400">

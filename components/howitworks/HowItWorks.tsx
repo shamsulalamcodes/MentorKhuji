@@ -4,6 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import {
     ArrowRight,
+    ChevronDown,
     FilePlus2,
     GraduationCap,
     Inbox,
@@ -13,11 +14,14 @@ import {
     UserPlus,
     type LucideIcon,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 type Audience = "student" | "tutor";
 type Step = { icon: LucideIcon; title: string; description: string };
+
+// Link styled as a button (works with any shadcn version, no asChild needed).
+const btn =
+    "inline-flex h-12 items-center justify-center gap-1.5 rounded-full px-8 text-base font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2";
 
 // Edit the copy, icons and links here.
 const WORKFLOWS: Record<
@@ -80,16 +84,39 @@ const WORKFLOWS: Record<
                     "Accept or reject student applications from your dashboard and start teaching.",
             },
         ],
-        cta: { label: "Become a tutor", href: "/signup" },
+        cta: { label: "Become a tutor", href: "/signUp" },
     },
 };
+
+const FAQS = [
+    {
+        q: "Is it free to join MentorLagbe?",
+        a: "Yes. Students and tutors can sign up and use the core features for free. The optional Pro plan adds extras like unlimited applications or listings and priority support.",
+    },
+    {
+        q: "How are tuitions and tutors verified?",
+        a: "Every tuition post is reviewed by our admins and goes live only after approval, so students see approved listings only.",
+    },
+    {
+        q: "How do I pay my tutor?",
+        a: "Tuition fees are agreed directly between you and your tutor. Payments on MentorLagbe are only for the optional Pro plan, which is handled securely by Stripe.",
+    },
+    {
+        q: "Can I learn online or in person?",
+        a: "Both. Every tuition shows whether it is online or offline, along with its location, so you can filter by what suits you.",
+    },
+    {
+        q: "How will I know if a tutor accepts my application?",
+        a: "You can follow the status of every application (pending, accepted or rejected) from your dashboard in real time.",
+    },
+];
 
 export function HowItWorks() {
     const [audience, setAudience] = React.useState<Audience>("student");
     const { steps, cta } = WORKFLOWS[audience];
 
     return (
-        <section id="how-it-works" className="bg-white py-16 sm:py-24">
+        <section id="how-it-works" className="bg-white py-6 sm:py-12">
             <div className="mx-auto max-w-6xl px-4 sm:px-6">
                 {/* Heading */}
                 <div className="mx-auto max-w-2xl text-center">
@@ -166,14 +193,117 @@ export function HowItWorks() {
 
                 {/* CTA */}
                 <div className="mt-14 flex justify-center">
-                    <Button className="h-12 rounded-full bg-indigo-600 px-8 text-white font-semibold shadow-none hover:bg-indigo-700">
-                        <Link href={cta.href} className="flex justify-center items-center gap-1">
-                            {cta.label}
-                            <ArrowRight className="size-5" />
-                        </Link>
-                    </Button>
+                    <Link
+                        href={cta.href}
+                        className={cn(btn, "bg-indigo-600 text-white hover:bg-indigo-700")}
+                    >
+                        {cta.label}
+                        <ArrowRight className="size-5" />
+                    </Link>
                 </div>
             </div>
         </section>
+    );
+}
+
+export function AboutIntro() {
+    return (
+        <section className="bg-linear-to-b from-indigo-50 to-white pb-4 pt-16 sm:pt-24">
+            <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
+                <p className="text-sm font-semibold uppercase tracking-wider text-indigo-600">
+                    About MentorLagbe
+                </p>
+                <h1 className="mt-3 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
+                    Finding the right tutor should be simple
+                </h1>
+                <p className="mt-5 text-base leading-relaxed text-slate-600 sm:text-lg">
+                    MentorLagbe connects students and parents with qualified tutors by
+                    subject, class level, mode and budget. Tutors get a clear place to
+                    showcase their batches and manage enrollments, all under one hood.
+                </p>
+            </div>
+        </section>
+    );
+}
+
+export function Faq() {
+    return (
+        <section id="faq" className="bg-slate-50 py-6 sm:py-12">
+            <div className="mx-auto max-w-3xl px-4 sm:px-6">
+                <div className="text-center">
+                    <p className="text-sm font-semibold uppercase tracking-wider text-indigo-600">
+                        FAQ
+                    </p>
+                    <h2 className="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+                        Questions, answered
+                    </h2>
+                </div>
+
+                <div className="mt-10 space-y-3">
+                    {FAQS.map(({ q, a }) => (
+                        <details
+                            key={q}
+                            className="group rounded-2xl bg-white ring-1 ring-slate-200 open:shadow-md open:shadow-indigo-100/60"
+                        >
+                            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-2xl p-5 text-left font-semibold text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 [&::-webkit-details-marker]:hidden">
+                                {q}
+                                <ChevronDown
+                                    className="size-5 shrink-0 text-slate-400 transition-transform group-open:rotate-180"
+                                    aria-hidden="true"
+                                />
+                            </summary>
+                            <p className="px-5 pb-5 text-sm leading-relaxed text-slate-600">
+                                {a}
+                            </p>
+                        </details>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+}
+
+export function FinalCta() {
+    return (
+        <section className="bg-white px-4 py-6 sm:py-12">
+            <div className="mx-auto max-w-6xl rounded-[2rem] bg-gradient-to-br from-indigo-600 to-sky-500 px-6 py-14 text-center sm:px-12">
+                <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                    Ready to get started?
+                </h2>
+                <p className="mx-auto mt-3 max-w-xl text-base text-indigo-50 sm:text-lg">
+                    Join MentorLagbe today as a student or a tutor. It takes less than a
+                    minute.
+                </p>
+                <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                    <Link
+                        href="/signUp"
+                        className={cn(btn, "bg-white text-indigo-700 hover:bg-indigo-50")}
+                    >
+                        Create free account
+                    </Link>
+                    <Link
+                        href="/tuitions"
+                        className={cn(
+                            btn,
+                            "text-white ring-1 ring-white/50 hover:bg-white/10"
+                        )}
+                    >
+                        Browse tuitions
+                    </Link>
+                </div>
+            </div>
+        </section>
+    );
+}
+
+/** Full page: use this in app/how-it-works/page.tsx */
+export function HowItWorksPage() {
+    return (
+        <>
+            <HowItWorks />
+            <AboutIntro />
+            <Faq />
+            <FinalCta />
+        </>
     );
 }
