@@ -33,9 +33,9 @@ export function BecomeTutor() {
                         boss.
                     </p>
                     <Button
-                        className="mt-6 h-14 w-full rounded-full bg-slate-900 text-base font-semibold shadow-none hover:bg-slate-800"
+                        className="mt-6 h-14 w-full rounded-full bg-slate-900 text-white text-lg font-semibold shadow-none hover:bg-slate-800"
                     >
-                        <Link href="/signUp">
+                        <Link className="flex justify-center items-center gap-1" href="/signUp">
                             Find out more
                             <Star className="size-5" />
                         </Link>

@@ -166,10 +166,8 @@ export function HowItWorks() {
 
                 {/* CTA */}
                 <div className="mt-14 flex justify-center">
-                    <Button
-                        className="h-12 rounded-full bg-indigo-600 px-8 text-base font-semibold shadow-none hover:bg-indigo-700"
-                    >
-                        <Link href={cta.href}>
+                    <Button className="h-12 rounded-full bg-indigo-600 px-8 text-white font-semibold shadow-none hover:bg-indigo-700">
+                        <Link href={cta.href} className="flex justify-center items-center gap-1">
                             {cta.label}
                             <ArrowRight className="size-5" />
                         </Link>

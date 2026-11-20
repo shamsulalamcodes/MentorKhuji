@@ -210,7 +210,7 @@ export function PricingSection() {
                             type="button"
                             onClick={handleSubscribe}
                             disabled={loading}
-                            className="mt-6 h-12 w-full rounded-full bg-indigo-600 text-base font-semibold shadow-none hover:bg-indigo-700"
+                            className="mt-6 h-12 w-full rounded-full bg-indigo-600 text-white font-semibold shadow-none hover:bg-indigo-700"
                         >
                             {loading ? (
                                 <Loader2 className="size-5 animate-spin" />
