@@ -6,6 +6,12 @@ import { PopularSubjects } from "@/components/popularSubjects/PopularSubjects";
 import { PricingSection } from "@/components/pricingSection/PricingSection";
 import { Review } from "@/components/review/Review";
 
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Home | MentorLagbe",
+  description: "MentorLagbe Home.",
+};
 
 export default function Page() {
   return (

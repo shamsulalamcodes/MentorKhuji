@@ -6,10 +6,13 @@ import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AuthInput, PasswordInput } from "@/components/auth/auth-inputs";
 import { SocialButtons } from "@/components/auth/social-buttons";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export function LoginForm() {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
+  const router = useRouter()
 
   async function onSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -22,11 +25,10 @@ export function LoginForm() {
     setLoading(true);
     try {
       const credentials = { email, password };
-      // TODO: connect BetterAuth, for example:
-      // await authClient.signIn.email(credentials, {
-      //   onSuccess: () => router.push("/dashboard"),
-      //   onError: (ctx) => setError(ctx.error.message),
-      // });
+      await authClient.signIn.email(credentials, {
+        onSuccess: () => router.push("/dashboard"),
+        onError: (ctx) => setError(ctx.error.message),
+      });
     } catch {
       setError("Something went wrong. Please try again.");
     } finally {
@@ -74,7 +76,7 @@ export function LoginForm() {
         <Button
           type="submit"
           disabled={loading}
-          className="h-14 w-full rounded-full bg-indigo-600 text-base font-semibold shadow-none hover:bg-indigo-700"
+          className="h-14 w-full rounded-full bg-indigo-600 text-white text-md font-semibold shadow-none hover:bg-indigo-700"
         >
           {loading && <Loader2 className="size-5 animate-spin" />}
           Log in
@@ -86,7 +88,6 @@ export function LoginForm() {
       <SocialButtons
         verb="Log in"
         disabled={loading}
-        // TODO: authClient.signIn.social({ provider: "google", callbackURL: "/dashboard" })
         onGoogle={() => { }}
       />
 

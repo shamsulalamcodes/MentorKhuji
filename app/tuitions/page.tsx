@@ -4,6 +4,12 @@ import { Tuition, TuitionPageProps } from "@/lib/type";
 import { BookOpen, SearchX } from "lucide-react";
 import Link from "next/link";
 import SearchForTutions from "./SearchForTutions";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Tuitions | MentorLagbe",
+    description: "MentorLagbe Tuitions.",
+};
 
 const getParam = (value: string | string[] | undefined) =>
     (Array.isArray(value) ? value[0] : value)?.trim() ?? "";

@@ -1,21 +1,12 @@
 "use client"
-
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
-import {
-    ChevronDown,
-    LayoutDashboard,
-    LogOut,
-    Menu,
-    Sparkles,
-    UserRound,
-    X,
-} from "lucide-react"
-
+import { ChevronDown, LayoutDashboard, LogOut, Menu, Sparkles, UserRound, X } from "lucide-react"
 import { Logo } from "@/components/shared/Logo"
-import { type AuthUser, type UserRole, useAuth } from "@/hooks/use-auth"
+import { useCurrentUser, type AuthUser, type UserRole } from "@/hooks/use-auth"
 import { cn } from "@/lib/utils"
+import { authClient } from "@/lib/auth-client"
 
 const NAV_LINKS = [
     { label: "Home", href: "/" },
@@ -48,11 +39,6 @@ const ROLE_BADGES: Record<
     },
 }
 
-export type NavbarProps = {
-    /** Optional override for the session user. Falls back to `useAuth()`. */
-    user?: AuthUser | null
-    onSignOut?: () => void | Promise<void>
-}
 
 function isActivePath(pathname: string, href: string) {
     if (href === "/") return pathname === "/"
@@ -61,12 +47,7 @@ function isActivePath(pathname: string, href: string) {
 }
 
 function initialsFor(name: string) {
-    const initials = name
-        .trim()
-        .split(/\s+/)
-        .slice(0, 2)
-        .map((part) => part[0]?.toUpperCase() ?? "")
-        .join("")
+    const initials = name?.trim().split(/\s+/).slice(0, 2).map((part) => part[0]?.toUpperCase() ?? "").join("")
 
     return initials || "U"
 }
@@ -84,12 +65,12 @@ function RoleBadge({
         <span
             className={cn(
                 "inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-wide uppercase ring-1 ring-inset",
-                badge.className,
+                badge?.className,
                 className
             )}
         >
-            <span className={cn("size-1.5 rounded-full", badge.dotClassName)} />
-            {badge.label}
+            <span className={cn("size-1.5 rounded-full", badge?.dotClassName)} />
+            {badge?.label}
         </span>
     )
 }
@@ -155,11 +136,9 @@ function NavLink({
     )
 }
 
-export function Navbar({ user: userProp, onSignOut }: NavbarProps) {
+export function Navbar() {
     const pathname = usePathname()
-    const { user: sessionUser, signOut } = useAuth()
-    const user = userProp === undefined ? sessionUser : userProp
-
+    const user = useCurrentUser()
     const [mobileOpen, setMobileOpen] = useState(false)
     const [menuOpen, setMenuOpen] = useState(false)
     const [scrolled, setScrolled] = useState(false)
@@ -219,13 +198,7 @@ export function Navbar({ user: userProp, onSignOut }: NavbarProps) {
     const handleSignOut = async () => {
         closeMobileMenu()
         setMenuOpen(false)
-
-        if (onSignOut) {
-            await onSignOut()
-            return
-        }
-
-        await signOut()
+        authClient.signOut()
     }
 
     return (

@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { AuthInput, PasswordInput } from "@/components/auth/auth-inputs";
 import { SocialButtons } from "@/components/auth/social-buttons";
 import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 type Role = "student" | "tutor";
 
@@ -15,6 +16,7 @@ export function SignupForm() {
   const [role, setRole] = React.useState<Role>("student");
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
+  const router = useRouter()
 
   async function onSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -24,19 +26,20 @@ export function SignupForm() {
     const name = String(form.get("name") ?? "").trim();
     const email = String(form.get("email") ?? "").trim();
     const password = String(form.get("password") ?? "");
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.com$/i;
 
     if (!name) return setError("Please enter your full name.");
-    if (password.length < 8)
-      return setError("Password must be at least 8 characters.");
+    if (!emailRegex.test(email)) return setError("Email Address is wrong.");
+    if (!passwordRegex.test(password)) return setError("Password must be at least 8 characters with 1 uppercase, 1 lowercase and 1 number.");
 
     setLoading(true);
     try {
       const payload = { name, email, password, role };
-      // TODO: connect BetterAuth, for example:
-      // await authClient.signUp.email(payload, {
-      //   onSuccess: () => router.push("/dashboard"),
-      //   onError: (ctx) => setError(ctx.error.message),
-      // });
+      await authClient.signUp.email(payload, {
+        onSuccess: () => router.push("/dashboard"),
+        onError: (ctx) => setError(ctx.error.message),
+      });
       console.info("signup payload", payload);
     } catch {
       setError("Something went wrong. Please try again.");
@@ -107,7 +110,7 @@ export function SignupForm() {
         <Button
           type="submit"
           disabled={loading}
-          className="h-14 w-full rounded-full bg-indigo-600 text-base font-semibold shadow-none hover:bg-indigo-700"
+          className="h-14 w-full rounded-full bg-indigo-600 text-white text-md font-semibold shadow-none hover:bg-indigo-700"
         >
           {loading && <Loader2 className="size-5 animate-spin" />}
           Sign up by email
