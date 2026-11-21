@@ -1,6 +1,6 @@
 "use client"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 import { ChevronDown, LayoutDashboard, LogOut, Menu, Sparkles, UserRound, X } from "lucide-react"
 import { Logo } from "@/components/shared/Logo"
@@ -82,6 +82,7 @@ function UserAvatar({
     user: AuthUser
     className?: string
 }) {
+
     return (
         <span
             role="img"
@@ -91,16 +92,16 @@ function UserAvatar({
                 className
             )}
             style={
-                user.avatarUrl
+                user.image
                     ? {
-                        backgroundImage: `url("${user.avatarUrl.replace(/"/g, "%22")}")`,
+                        backgroundImage: `url("${user.image}")`,
                         backgroundPosition: "center",
                         backgroundSize: "cover",
                     }
                     : undefined
             }
         >
-            {user.avatarUrl ? null : initialsFor(user.name)}
+            {user.image ? null : initialsFor(user.name)}
         </span>
     )
 }
@@ -137,13 +138,14 @@ function NavLink({
 }
 
 export function Navbar() {
+    const router = useRouter()
     const pathname = usePathname()
     const user = useCurrentUser()
     const [mobileOpen, setMobileOpen] = useState(false)
     const [menuOpen, setMenuOpen] = useState(false)
     const [scrolled, setScrolled] = useState(false)
     const menuRef = useRef<HTMLDivElement>(null)
-
+    console.log(user);
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 8)
 
@@ -199,6 +201,7 @@ export function Navbar() {
         closeMobileMenu()
         setMenuOpen(false)
         authClient.signOut()
+        router.push('/')
     }
 
     return (

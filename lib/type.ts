@@ -46,3 +46,5 @@ export type SingleTuition = {
     isActive: boolean
     createdAt: string
 }
+
+export type User = { _id: string; name: string; email: string; photo?: File | string | null }

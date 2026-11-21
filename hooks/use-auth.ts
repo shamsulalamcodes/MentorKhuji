@@ -1,3 +1,5 @@
+'use client'
+
 import { authClient } from "@/lib/auth-client"
 
 export type UserRole = "student" | "tutor" | "admin"
@@ -6,7 +8,7 @@ export type AuthUser = {
   id?: string | number
   name: string
   email?: string
-  avatarUrl?: string | null
+  image?: string | null
   role: UserRole
 }
 
@@ -18,6 +20,6 @@ export const useCurrentUser = (): AuthUser | null => {
   if (!u) return null;
 
   return {
-    id: u.id, name: u.name, email: u.email, avatarUrl: u.image ?? null, role: ROLES.includes(u.role as UserRole) ? (u.role as UserRole) : "student",
+    id: u.id, name: u.name, email: u.email, image: u.image ?? null, role: ROLES.includes(u.role as UserRole) ? (u.role as UserRole) : "student",
   };
 };
