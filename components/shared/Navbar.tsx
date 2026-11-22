@@ -7,6 +7,7 @@ import { Logo } from "@/components/shared/Logo"
 import { useCurrentUser, type AuthUser, type UserRole } from "@/hooks/use-auth"
 import { cn } from "@/lib/utils"
 import { authClient } from "@/lib/auth-client"
+import { toast } from "../ui/toast"
 
 const NAV_LINKS = [
     { label: "Home", href: "/" },
@@ -145,7 +146,7 @@ export function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false)
     const [scrolled, setScrolled] = useState(false)
     const menuRef = useRef<HTMLDivElement>(null)
-    console.log(user);
+
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 8)
 

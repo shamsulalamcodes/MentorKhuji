@@ -1,3 +1,4 @@
+import { authClient } from "./auth-client"
 import { User } from "./type"
 
 const base = process.env.NEXT_PUBLIC_API_URL

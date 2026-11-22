@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { Pencil, Loader2 } from "lucide-react"
-import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -12,8 +11,11 @@ import {
 import { User } from "@/lib/type"
 import { updateUser } from "@/lib/api"
 import { useRouter } from "next/navigation"
+import { authClient } from "@/lib/auth-client"
+import { toast } from "../ui/toast"
 
 export function EditProfileDialog({ user }: { user: User }) {
+    const { refetch } = authClient.useSession()
     const router = useRouter()
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -21,21 +23,26 @@ export function EditProfileDialog({ user }: { user: User }) {
     const [email, setEmail] = useState(user.email)
     const [photo, setPhoto] = useState<File | null>(null)
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (photo && photo.size > 5 * 1024 * 1024) {
-            return toast.error("Image must be less than 5MB")
+            return toast.add({ type: "error", title: "Image must be less than 5MB" })
         }
         try {
             setLoading(true)
             const updated = await updateUser(user._id, { name, email, photo })
             if (updated) {
-                toast.success("Profile updated")
-                router.refresh()
+                toast.add({ type: "success", title: "Profile updated" })
                 setOpen(false)
+                await refetch()
+                router.refresh()
             }
         } catch (err) {
-            toast.error(err instanceof Error ? err.message : "Something went wrong")
+            toast.add({
+                title: "Update failed",
+                description: err instanceof Error ? err.message : "Something went wrong",
+                type: "error",
+            })
         } finally {
             setLoading(false)
         }
@@ -66,7 +73,6 @@ export function EditProfileDialog({ user }: { user: User }) {
                             id="photo"
                             type="file"
                             accept="image/*"
-                            defaultValue={user?.photo as string}
                             onChange={(e) => setPhoto(e.target.files?.[0] ?? null)}
                         />
                     </div>
