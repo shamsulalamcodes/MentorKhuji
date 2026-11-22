@@ -3,8 +3,6 @@ import Link from "next/link";
 import { Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-// Photo: "Elderly man teaching young boy math at desk" by Vitaly Gariev on Unsplash (Unsplash License)
-// https://unsplash.com/photos/elderly-man-teaching-young-boy-math-at-desk-bY6KnLOxp2Y
 const PHOTO = "https://images.unsplash.com/photo-1758687126375-e2c1683219e9?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D";
 
 export function BecomeTutor() {

@@ -30,13 +30,11 @@ export function EditProfileDialog({ user }: { user: User }) {
         }
         try {
             setLoading(true)
-            const updated = await updateUser(user._id, { name, email, photo })
-            if (updated) {
-                toast.add({ type: "success", title: "Profile updated" })
-                setOpen(false)
-                await refetch()
-                router.refresh()
-            }
+            await updateUser(user._id, { name, email, photo })
+            setTimeout(() => toast.add({ type: "success", title: "Profile updated" }), 10)
+            setOpen(false)
+            await refetch()
+            router.refresh()
         } catch (err) {
             toast.add({
                 title: "Update failed",

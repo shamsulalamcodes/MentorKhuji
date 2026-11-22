@@ -24,11 +24,13 @@ export default function RootLayout({
       <body className="min-h-dvh bg-slate-50 text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-50">
         <ThemeProvider>
           <div className="flex min-h-dvh flex-col">
-            <Navbar />
-            <main className="flex-1">{children}</main>
-            <Footer />
+            <main className="flex-1">
+              <Navbar />
+              {children}
+              <Toaster />
+              <Footer />
+            </main>
           </div>
-          <Toaster />
         </ThemeProvider>
       </body>
     </html>

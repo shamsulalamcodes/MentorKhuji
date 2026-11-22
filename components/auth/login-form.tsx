@@ -8,6 +8,7 @@ import { AuthInput, PasswordInput } from "@/components/auth/auth-inputs";
 import { SocialButtons } from "@/components/auth/social-buttons";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { toast } from "../ui/toast";
 
 export function LoginForm() {
   const [loading, setLoading] = React.useState(false);
